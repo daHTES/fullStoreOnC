@@ -11,14 +11,14 @@ namespace Store.Tests
     public class BookServiceTests
     {
         [Fact]
-        public void GetAllByQuery_WithIsbn_CallsGetAllByIsbn() 
+        public void GetAllByQuery_WithIsbn_CallsGetAllByIsbn()
         {
             var bookRepository = new Mock<IBookRepository>();
             bookRepository.Setup(x => x.GetAllIsbn(
                 It.IsAny<string>()))
-                .Returns(new[] { new Book(1, "", "", "") });
+                .Returns(new[] { new Book(1, "", "", "", "", 0m) });
             bookRepository.Setup(x => x.GetAllTitleOrAuthor(
-                It.IsAny<string>())).Returns(new[] { new Book(2, "", "", "") });
+                It.IsAny<string>())).Returns(new[] { new Book(2, "", "", "", "", 0m) });
 
             var bookService = new BookService(bookRepository.Object);
 
@@ -35,11 +35,11 @@ namespace Store.Tests
             var bookRepositary = new Mock<IBookRepository>();
             bookRepositary.Setup(x => x.GetAllIsbn(
                 It.IsAny<string>()))
-                .Returns(new[] { new Book(1, "", "", "") });
+                .Returns(new[] { new Book(1, "", "", "", "", 0m) });
 
             bookRepositary.Setup(x => x.GetAllTitleOrAuthor(
                 It.IsAny<string>()))
-                .Returns(new[] { new Book(2, "", "", "") });
+                .Returns(new[] { new Book(2, "", "", "", "", 0m) });
 
             var bookService = new BookService(bookRepositary.Object);
 

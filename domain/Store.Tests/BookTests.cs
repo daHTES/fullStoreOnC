@@ -50,7 +50,5 @@ namespace Store.Tests
             Assert.False(actual);
         }
 
-
-
     }
 }

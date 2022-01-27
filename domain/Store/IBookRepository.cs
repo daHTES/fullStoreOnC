@@ -11,5 +11,7 @@ namespace Store
         Book[] GetAllIsbn(string isbn);
 
         Book[] GetAllTitleOrAuthor(string titleOrAuthor);
+        
+        Book GetById(int id);
     }
 }
