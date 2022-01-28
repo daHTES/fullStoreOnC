@@ -13,5 +13,7 @@ namespace Store
         Book[] GetAllTitleOrAuthor(string titleOrAuthor);
         
         Book GetById(int id);
+
+        Book[] GetAllByIds(IEnumerable<int> bookIds);
     }
 }

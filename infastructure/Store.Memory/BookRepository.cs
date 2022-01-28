@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Store.Memory
@@ -140,6 +141,13 @@ namespace Store.Memory
             )
 
         };
+
+        public Book[] GetAllByIds(IEnumerable<int> bookIds)
+        {
+            var foundBooks = from book in books join bookID in bookIds on book.ID equals bookID select book;
+
+            return foundBooks.ToArray();
+        }
 
         public Book[] GetAllIsbn(string isbn)
         {
