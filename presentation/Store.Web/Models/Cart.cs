@@ -1,15 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Store.Web.Models
+﻿namespace Store.Web.Models
 {
     public class Cart
     {
+        public int OrderId { get; }
 
-        public IDictionary<int, int> Items { get; set; } = new Dictionary<int, int>();
+        public int TotalCount { get; set; }
 
-        public decimal Amount { get; set; }
+        public decimal TotalPrice { get; set; }
+
+
+        public Cart(int orderid) 
+        {
+            this.OrderId = orderid;
+            TotalCount = 0;
+            TotalPrice = 0m;
+        }
+        
     }
 }
