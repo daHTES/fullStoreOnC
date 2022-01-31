@@ -3,7 +3,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Store.Contractors;
 using Store.Memory;
+using Store.Messages;
+using Store.Web.Controllers;
 using System;
 
 namespace Store.Web
@@ -29,8 +32,10 @@ namespace Store.Web
                 options.Cookie.IsEssential = true;
             });
             services.AddSingleton<IBookRepository, BookRepository>();
-            services.AddSingleton<BookService>();
             services.AddSingleton<IOrderRepository, OrderRepository>();
+            services.AddSingleton<INotificationService, DebugNotificationService>();
+            services.AddSingleton<BookService>();
+            services.AddSingleton<IDeliveryService, PostamateDeliveryService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

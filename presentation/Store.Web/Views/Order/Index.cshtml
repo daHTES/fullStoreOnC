@@ -16,6 +16,7 @@
             <th scope="col">Название</th>
             <th scope="col">Количество</th>
             <th scope="col">Цена</th>
+            <th scope="col"></th>
         </tr>
     </thead>
     <tbody>
@@ -27,6 +28,12 @@
                 <td>@Model.Items[i].Title</td>
                 <td class="text-right">@Model.Items[i].Count</td>
                 <td class="text-right">@Model.Items[i].Price</td>
+                <td class="text=center">
+                    <form class="form-inline" action="@Url.Action("RemoveItem", "Order")" method="post">
+                        <input type="hidden" name="bookId" value="@Model.Items[i].BookId" />
+                        <button class="btn btn-danger" type="submit">Удалить</button>
+                    </form>
+                </td>
            </tr>
         }
     </tbody>
@@ -38,3 +45,16 @@
         </tr>
     </tfoot>
 </table>
+
+<form action="@Url.Action("SendConfirmationCode")" method="post">
+    <input type="hidden" name="id" value="@Model.Id"/>
+    <div class="form-group">
+        <label for="cellPhone">Мобильный номер</label>
+        <input type="text" class="form-control" name="cellPhone" value="+309050281860"/>
+               @if (Model.Errors.ContainsKey("cellPhone")) 
+               {
+                   <small class="form-text text-danger">@Model.Errors["cellPhone"]</small>
+               } 
+        <button type="submit" class="btn btn-success">Отправить код</button>
+    </div>
+</form>
