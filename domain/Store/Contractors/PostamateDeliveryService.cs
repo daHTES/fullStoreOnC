@@ -1,16 +1,16 @@
 ﻿using Store.Contractors;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Store.Web.Controllers
 {
     public class PostamateDeliveryService : IDeliveryService
     {
-        private static Dictionary<string, string> cities = new Dictionary<string, string>
+        private static IReadOnlyDictionary<string, string> cities = new Dictionary<string, string>
         {
             {"1", "Киев" },
             {"2", "Харьков" },
-            {"3", "Одесса" }
         };
         private static IReadOnlyDictionary<string, IReadOnlyDictionary<string, string>> postmates
             = new Dictionary<string, IReadOnlyDictionary<string, string>>
@@ -34,20 +34,35 @@ namespace Store.Web.Controllers
                         {"6", "Индустриальный" },
                     }
                 },
-                {
-                    "3",
-                    new Dictionary<string, string>
-                    {
-                        {"7", "Водопад"},
-                        {"8", "Потемкино"},
-                        {"9", "Ватерлоу"},
-                    }
-                }
             };
 
         public string UniqueCode => "Postamate";
 
-        public string Title => "Доставка через постаматы Киева";
+        public string Title => "Доставка через постаматы Киева, Одессы, Харькова";
+
+        public OrderDelivery GetDelivery(Form form) 
+        {
+            if (form.UniqueCode != UniqueCode || form.IsFinal) 
+                throw new ArgumentException("Не верно передана форма!");
+
+
+            var cityId = form.Fields.Single(field => field.Name == "city").Value;
+            var cityName = cities[cityId];
+            var postamateId = form.Fields.Single(field => field.Name == "postamate").Value;
+            var postamateName = postmates[cityId][postamateId];
+
+            var parameters = new Dictionary<string, string>
+            {
+                {nameof(cityId), cityId},
+                {nameof(cityName), cityName},
+                {nameof(postamateId), postamateId},
+                {nameof(postamateName), postamateName}
+            };
+
+            var description = $"Город: {cityName}\nПостамат: {postamateName}";
+
+            return new OrderDelivery(UniqueCode, description, 150m, parameters);
+        }
 
         public Form CreateForm(Order order)
         {
@@ -62,7 +77,7 @@ namespace Store.Web.Controllers
            });
         }
 
-        public Form MoveNext(int orderId, int step, IReadOnlyDictionary<string, string> value)
+        public Form MoveNextForm(int orderId, int step, IReadOnlyDictionary<string, string> value)
         {
             if (step == 1)
             {
@@ -81,14 +96,6 @@ namespace Store.Web.Controllers
                     {
                         new HiddenField("Город", "city", "2"),
                         new SelectionField("Постамат", "postamate", "4", postmates["2"]),
-                    });
-                }
-                else if (value["city"] == "3")
-                {
-                    return new Form(UniqueCode, orderId, 3, false, new Field[]
-                    {
-                        new HiddenField("Город", "city", "3"),
-                        new SelectionField("Постамат", "postamate", "7", postmates["3"]),
                     });
                 }
                 else

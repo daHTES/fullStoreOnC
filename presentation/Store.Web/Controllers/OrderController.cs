@@ -15,10 +15,12 @@ namespace Store.Web.Controllers
         private readonly IBookRepository bookRepository;
         private readonly IOrderRepository orderRepository;
         private readonly IEnumerable<IDeliveryService> deliveryServices;
+        private readonly IEnumerable<IPaymentServices> paymentServices;
         private readonly INotificationService notificationService;
 
         public OrderController(IBookRepository bookrepository,
             IOrderRepository orderrepository,
+            IEnumerable<IPaymentServices> paymentservices,
             INotificationService notificationservice,
             IEnumerable<IDeliveryService> deliveryservice)
         {
@@ -26,6 +28,7 @@ namespace Store.Web.Controllers
             this.orderRepository = orderrepository;
             this.notificationService = notificationservice;
             this.deliveryServices = deliveryservice;
+            this.paymentServices = paymentservices;
         }
 
 
@@ -200,6 +203,10 @@ namespace Store.Web.Controllers
                 }); ;
             }
 
+            var order = orderRepository.GetById(id);
+            order.CellPhone = cellPhone;
+            orderRepository.Update(order);
+
             HttpContext.Session.Remove(cellPhone);
 
             var model = new DeliveryModel
@@ -229,14 +236,58 @@ namespace Store.Web.Controllers
         {
             var deliveryservice = deliveryServices.Single(single => single.UniqueCode == uniqueCode);
 
-            var form = deliveryservice.MoveNext(id, step, value);
+            var form = deliveryservice.MoveNextForm(id, step, value);
 
             if (form.IsFinal) 
             {
-                return null;
+                var order = orderRepository.GetById(id);
+                order.Delivery = deliveryservice.GetDelivery(form);
+                orderRepository.Update(order);
+
+                var model = new DeliveryModel
+                {
+                    OrderId = id,
+                    Methods = paymentServices.ToDictionary(
+                        service => service.UniqueCode,
+                        service => service.Title)
+                };
+                return View("PaymentMethod", model);
             }
 
             return View("DeliveryStep", form);
         }
+        [HttpPost]
+        public IActionResult StartPayment(int id, string uniqueCode)
+        {
+            var paymentService = paymentServices.Single(service => service.UniqueCode == uniqueCode);
+
+            var order = orderRepository.GetById(id);
+
+            var form = paymentService.CreateForm(order);
+
+            return View("PaymentStep", form);
+        }
+        [HttpPost]
+        public IActionResult NextPayment(int id, string uniqueCode, int step, Dictionary<string, string> value)
+        {
+            var paymentService = paymentServices.Single(single => single.UniqueCode == uniqueCode);
+
+            var form = paymentService.MoveNextForm(id, step, value);
+
+            if (form.IsFinal)
+            {
+                var order = orderRepository.GetById(id);
+                order.Payment = paymentService.GetPayment(form);
+                orderRepository.Update(order);
+
+                return View("Finish");
+            }
+
+            return View("PaymentStep", form);
+        }
     }
+
+
+
 }
+

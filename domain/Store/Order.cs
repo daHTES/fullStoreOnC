@@ -17,8 +17,15 @@ namespace Store
             get { return Listitems; }
         }
 
+        public string CellPhone { get; set; }
+
+        public OrderDelivery Delivery { get; set; }
+
+        public OrderPayment Payment { get; set; }
+        //syntax sugar on C#
         public int TotalCount => Listitems.Sum(item => item.Count);
-        public decimal TotalPrice => Listitems.Sum(item => item.Price * item.Count);
+        public decimal TotalPrice => Listitems.Sum(item => item.Price * item.Count) 
+            + (Delivery?.Amount ?? 0m);
 
         public Order(int id, IEnumerable<OrderItem> items) 
         {
@@ -30,6 +37,8 @@ namespace Store
             this.Listitems = new List<OrderItem>(items);
         }
 
+
+
         public OrderItem GetItem(int bookId) 
         {
             int index = Listitems.FindIndex(item => item.BookId == bookId);
@@ -39,10 +48,14 @@ namespace Store
             return Listitems[index];
         }
 
+
+
         public bool ContaintsItem(int bookId) 
         {
             return CollectionItems.Any(item => item.BookId == bookId);
         }
+
+
 
 
         public void AddOrUpdateItem(Book book, int count) 
@@ -62,23 +75,6 @@ namespace Store
             }
         }
 
-       //public void AddBook(Book book) 
-       // {
-       //     if (book == null)
-       //         throw new ArgumentNullException(nameof(book));
-
-       //     AddOrUpdateItem(book, 1);
-       // }
-
-       // public void RemoveBook(Book book) 
-       // {
-       //     if (book == null)
-       //         throw new ArgumentNullException(nameof(book));
-            
-       //     AddOrUpdateItem(book, -1);
-       // }
-
-
         public void RemoveItem(int bookid) 
         {
 
@@ -90,19 +86,16 @@ namespace Store
             Listitems.RemoveAt(index);
         }
 
+
+
+
         private void ThrowBookException(string msg, int bookId) 
         {
             var errormsg = new InvalidOperationException(msg);
 
             errormsg.Data["Id"] = bookId;
 
-
             throw errormsg;
         }
-
-
-
-
-
     }
 }

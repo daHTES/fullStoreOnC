@@ -30,10 +30,10 @@ namespace Store.Contractors
 
 
             if (step < 1)
-                throw new ArgumentException(nameof(step));
+                throw new ArgumentNullException(nameof(step));
 
             if (fields == null)
-                throw new ArgumentException(nameof(fields));
+                throw new ArgumentNullException(nameof(fields));
 
 
             UniqueCode = uniquecode;

@@ -35,6 +35,7 @@ namespace Store.Web
             services.AddSingleton<IOrderRepository, OrderRepository>();
             services.AddSingleton<INotificationService, DebugNotificationService>();
             services.AddSingleton<BookService>();
+            services.AddSingleton<IPaymentServices, CashPaymentService>();
             services.AddSingleton<IDeliveryService, PostamateDeliveryService>();
         }
 
