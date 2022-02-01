@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Store.Contractors;
 using Store.Messages;
+using Store.Web.Contractors;
 using Store.Web.Models;
 using System;
 using System.Collections.Generic;
@@ -17,18 +18,21 @@ namespace Store.Web.Controllers
         private readonly IEnumerable<IDeliveryService> deliveryServices;
         private readonly IEnumerable<IPaymentServices> paymentServices;
         private readonly INotificationService notificationService;
+        private readonly IEnumerable<IWebContractorService> webContractorsService;
 
         public OrderController(IBookRepository bookrepository,
             IOrderRepository orderrepository,
             IEnumerable<IPaymentServices> paymentservices,
             INotificationService notificationservice,
-            IEnumerable<IDeliveryService> deliveryservice)
+            IEnumerable<IDeliveryService> deliveryservice,
+            IEnumerable<IWebContractorService> webcontractorsservice)
         {
             this.bookRepository = bookrepository;
             this.orderRepository = orderrepository;
             this.notificationService = notificationservice;
             this.deliveryServices = deliveryservice;
             this.paymentServices = paymentservices;
+            this.webContractorsService = webcontractorsservice;
         }
 
 
@@ -274,6 +278,15 @@ namespace Store.Web.Controllers
 
             var form = paymentService.CreateForm(order);
 
+
+            var webcontroller = webContractorsService.
+                                SingleOrDefault(service => service.
+                                UniqueCode == uniqueCode);
+            if (webcontroller != null)
+            {
+                return Redirect(webcontroller.GetUri);
+            }
+
             return View("PaymentStep", form);
         }
 
@@ -298,6 +311,13 @@ namespace Store.Web.Controllers
             }
 
             return View("PaymentStep", form);
+        }
+
+        public IActionResult Finish() 
+        {
+            HttpContext.Session.RemoveCart();
+
+            return View();
         }
     }
 
