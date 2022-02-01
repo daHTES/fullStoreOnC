@@ -9,17 +9,17 @@ namespace Store.Web.Controllers
     public class BookController : Controller
     {
 
-        private readonly IBookRepository bookRepository;
+        private readonly BookService bookService;
 
-        public BookController(IBookRepository bookrepositary) 
+        public BookController(BookService bookService) 
         {
-            this.bookRepository = bookrepositary;
+            this.bookService = bookService;
         }
         public IActionResult Index(int id)
         {
-            Book book = bookRepository.GetById(id);
+            var model = bookService.GetById(id);
 
-            return View(book);
+            return View(model);
         }
     }
 }

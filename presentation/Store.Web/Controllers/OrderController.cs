@@ -113,7 +113,10 @@ namespace Store.Web.Controllers
 
             var book = bookRepository.GetById(bookId);
 
-            order.AddOrUpdateItem(book, count);
+            if (order.CollectionItems.TryGet(bookId, out OrderItem orderitem))
+                orderitem.Count += count;
+            else
+                order.CollectionItems.Add(bookId, book.Price, count);
 
             SaveOrderAndCart(order, cart);
 
@@ -127,7 +130,7 @@ namespace Store.Web.Controllers
         {
             (Order order, Cart cart) = GetOrCreateOrderAndCart();
 
-            order.GetItem(bookId).Count = count;
+            order.CollectionItems.Get(bookId).Count += count;
 
             SaveOrderAndCart(order, cart);
 
@@ -146,7 +149,7 @@ namespace Store.Web.Controllers
             else
             {
                 order = orderRepository.Create();
-                cart = new Cart(order.Id);
+                cart = new Cart(order.Id, 0, 0m);
             }
 
             return (order, cart);
@@ -156,8 +159,7 @@ namespace Store.Web.Controllers
         {
             orderRepository.Update(order);
 
-            cart.TotalCount = order.TotalCount;
-            cart.TotalPrice = order.TotalPrice;
+            cart = new Cart(order.Id, order.TotalCount, order.TotalPrice);
 
             HttpContext.Session.Set(cart);
         }
@@ -168,7 +170,7 @@ namespace Store.Web.Controllers
             (Order order, Cart cart) = GetOrCreateOrderAndCart();
 
 
-            order.RemoveItem(bookId);
+            order.CollectionItems.Remove(bookId);
 
             SaveOrderAndCart(order, cart);
 

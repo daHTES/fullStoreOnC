@@ -25,7 +25,7 @@ namespace Store
 
         public decimal Price { get; }
 
-        public OrderItem(int bookId, int count, decimal price) 
+        public OrderItem(int bookId, decimal price, int count) 
         {
             ValidateCount(count);
             BookId = bookId;

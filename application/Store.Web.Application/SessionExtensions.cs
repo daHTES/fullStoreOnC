@@ -44,12 +44,7 @@ namespace Store.Web
                     var totalCout = reader.ReadInt32();
                     var totalPrice = reader.ReadDecimal();
 
-                    value = new Cart(orderId)
-                    {
-                        TotalCount = totalCout,
-                        TotalPrice = totalPrice,
-
-                    };
+                    value = new Cart(orderId, totalCout, totalPrice);
                     return true;
                 }
             }
