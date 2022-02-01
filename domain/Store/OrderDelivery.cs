@@ -20,13 +20,13 @@ namespace Store
             IReadOnlyDictionary<string, string> parameters) 
         {
             if (string.IsNullOrWhiteSpace(uniquecode))
-                throw new ArgumentException(nameof(description));
+                throw new ArgumentException(nameof(uniquecode));
 
             if (string.IsNullOrWhiteSpace(description))
                 throw new ArgumentException(nameof(description));
 
             if (parameters == null)
-                throw new ArgumentException(nameof(parameters));
+                throw new ArgumentNullException(nameof(parameters));
 
             UniqueCode = uniquecode;
             Description = description;

@@ -220,10 +220,14 @@ namespace Store.Web.Controllers
             return View("DeliveryMethod", model);
         }
 
+
+
+
         [HttpPost]
         public IActionResult StartDelivery(int id, string uniqueCode)
         {
-            var deliverservice = deliveryServices.Single(service => service.UniqueCode == uniqueCode);
+            var deliverservice = deliveryServices.
+                Single(service => service.UniqueCode == uniqueCode);
 
             var order = orderRepository.GetById(id);
 
@@ -231,12 +235,15 @@ namespace Store.Web.Controllers
 
             return View("DeliveryStep", form);
         }
+
+
+
         [HttpPost]
-        public IActionResult NextDelivery(int id, string uniqueCode, int step, Dictionary<string, string> value) 
+        public IActionResult NextDelivery(int id, string uniqueCode, int step, Dictionary<string, string> values) 
         {
             var deliveryservice = deliveryServices.Single(single => single.UniqueCode == uniqueCode);
 
-            var form = deliveryservice.MoveNextForm(id, step, value);
+            var form = deliveryservice.MoveNextForm(id, step, values);
 
             if (form.IsFinal) 
             {
@@ -259,7 +266,9 @@ namespace Store.Web.Controllers
         [HttpPost]
         public IActionResult StartPayment(int id, string uniqueCode)
         {
-            var paymentService = paymentServices.Single(service => service.UniqueCode == uniqueCode);
+            var paymentService = paymentServices.
+                Single(service => service.
+                UniqueCode == uniqueCode);
 
             var order = orderRepository.GetById(id);
 
@@ -267,8 +276,13 @@ namespace Store.Web.Controllers
 
             return View("PaymentStep", form);
         }
+
         [HttpPost]
-        public IActionResult NextPayment(int id, string uniqueCode, int step, Dictionary<string, string> value)
+        public IActionResult NextPayment(
+            int id, 
+            string uniqueCode, 
+            int step, 
+            Dictionary<string, string> value)
         {
             var paymentService = paymentServices.Single(single => single.UniqueCode == uniqueCode);
 

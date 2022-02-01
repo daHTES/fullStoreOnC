@@ -15,13 +15,15 @@ namespace Store.Contractors
 
         public OrderPayment GetPayment(Form form)
         {
-            throw new NotImplementedException();
+            if (form.UniqueCode != UniqueCode || !form.IsFinal)
+                throw new InvalidOperationException("Не верная форма оплаты");
+            return new OrderPayment(UniqueCode, "Оплата Наличными", new Dictionary<string, string>());
         }
 
         public Form MoveNextForm(int orderId, int step, IReadOnlyDictionary<string, string> value)
         {
             if (step != 1)
-                throw new InvalidOperationException("Не верный кеш!");
+                throw new InvalidOperationException("Не верная форма для выбора оплаты наличиными!");
 
             return new Form(UniqueCode, orderId, 2, true, new Field[0]);
         }

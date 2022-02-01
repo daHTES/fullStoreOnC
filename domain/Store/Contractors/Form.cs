@@ -30,7 +30,7 @@ namespace Store.Contractors
 
 
             if (step < 1)
-                throw new ArgumentNullException(nameof(step));
+                throw new ArgumentOutOfRangeException(nameof(step));
 
             if (fields == null)
                 throw new ArgumentNullException(nameof(fields));
