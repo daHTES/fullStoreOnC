@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Store.Web.Application;
+using System.Collections.Generic;
 
 namespace Store.Web.Models
 {

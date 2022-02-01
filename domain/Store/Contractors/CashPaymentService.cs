@@ -5,27 +5,29 @@ namespace Store.Contractors
 {
    public class CashPaymentService : IPaymentServices
     {
-        public string UniqueCode => "Cash";
+        public string Name => "Cash";
         public string Title => "Оплата наличными";
 
-        public Form CreateForm(Order order)
+        public Form FirstForm(Order order)
         {
-            return new Form(UniqueCode, order.Id, 1, false, new Field[0]);
+            return Form.CreateFirst(Name)
+                        .AddParameter("orderId", order.Id.ToString());
         }
 
         public OrderPayment GetPayment(Form form)
         {
-            if (form.UniqueCode != UniqueCode || !form.IsFinal)
-                throw new InvalidOperationException("Не верная форма оплаты");
-            return new OrderPayment(UniqueCode, "Оплата Наличными", new Dictionary<string, string>());
+            if (form.ServiceName != Name || !form.IsFinal)
+                throw new InvalidOperationException("Неверная оплата наличными.");
+
+            return new OrderPayment(Name, "Оплата наличными", form.Parameters);
         }
 
-        public Form MoveNextForm(int orderId, int step, IReadOnlyDictionary<string, string> value)
+        public Form NextForm(int step, IReadOnlyDictionary<string, string> values)
         {
             if (step != 1)
-                throw new InvalidOperationException("Не верная форма для выбора оплаты наличиными!");
+                throw new InvalidOperationException("Неверный шаг оплаты.");
 
-            return new Form(UniqueCode, orderId, 2, true, new Field[0]);
+            return Form.CreateLast(Name, step + 1, values);
         }
     }
 }

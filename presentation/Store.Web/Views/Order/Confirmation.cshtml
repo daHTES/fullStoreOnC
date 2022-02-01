@@ -1,4 +1,4 @@
-﻿@model ConfirmationModel
+﻿@model OrderModel
 
 
 @{
@@ -6,15 +6,19 @@
 }
 
 <h1>Подтверждение мобильного</h1>
-<form action="@Url.Action("Confirmate")" method="post">
-    <input type="hidden" name="id" value="@Model.OrderId"/>
+
+<p>
+    Введите <em>*код подтверждения</em> из SMS
+</p>
+
+<form action="@Url.Action(nameof(OrderController.ConfirmCellPhone))" method="post">
     <input type="hidden" name="cellPhone" value="@Model.CellPhone" />
     <div class="form-group">
         <label for="code"> Код подтверждения</label>
-        <input type="text" class="form-control" name="code" placeholder="0000"/>
-        @if (Model.Errors.ContainsKey("code")) 
+        <input type="text" class="form-control" name="confirmationCode" placeholder="0000"/>
+        @if (Model.Errors.ContainsKey("confirmationCode")) 
         {
-            <small class="form-text text-danger">@Model.Errors["code"]</small>
+            <small class="form-text text-danger">@Model.Errors["confirmationCode"]</small>
         } 
     </div>
     <button class="btn btn-success" type="submit">Проверить</button>
@@ -22,11 +26,14 @@
 
 
 <form action="@Url.Action("SendConfirmationCode")" method="post">
-    <input type="hidden" name="id" value="@Model.OrderId"/>
-<div class="form-group">
-    <label for="cellPhone">Мобильный номер</label>
-    <input type="text" class="form-control"  name="cellPhone" vale="@Model.CellPhone" />
-</div>
+    <div class="form-group">
+        <label for="cellPhone">Мобильный номер</label>
+        <input type="text" class="form-control" name="cellPhone" vale="@Model.CellPhone" />
+        @if (Model.Errors.ContainsKey("cellPhone"))
+        {
+            <small class="form-text text-danger">@Model.Errors["cellPhone"]</small>
+        }
+    </div>
     <button type="submit" class="btn btn-success">Повторно Отправить код</button>
 </form>
                  

@@ -1,4 +1,4 @@
-﻿namespace Store.Web.Models
+﻿namespace Store.Web.Application
 {
     public class Cart
     {

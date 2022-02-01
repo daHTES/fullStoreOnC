@@ -36,13 +36,13 @@ namespace Store.Web.Controllers
             }
         };
 
-        public string UniqueCode => "Postamate";
+        public string Name => "Postamate";
 
         public string Title => "Доставка через постаматы Киева, Харькова";
 
         public OrderDelivery GetDelivery(Form form) 
         {
-            if (form.UniqueCode != UniqueCode || !form.IsFinal) 
+            if (form.ServiceName != Name || !form.IsFinal) 
                 throw new InvalidOperationException("Не верно передана форма!");
 
 
@@ -61,40 +61,30 @@ namespace Store.Web.Controllers
 
             var description = $"Город: {cityName}\nПостамат: {postamateName}";
 
-            return new OrderDelivery(UniqueCode, description, 150m, parameters);
+            return new OrderDelivery(Name, description, 150m, parameters);
         }
 
-        public Form CreateForm(Order order)
+        public Form FirstForm(Order order)
         {
-           if (order == null)
-                throw new ArgumentNullException(nameof(order));
-
-            return new Form(UniqueCode, order.Id, 1, false, new[]
-            {
-               new SelectionField("Город", "gorod", "1", cities),
-           });
+            return Form.CreateFirst(Name)
+                         .AddParameter("orderId", order.Id.ToString())
+                         .AddField(new SelectionField("Город", "city", "1", cities));
         }
 
-        public Form MoveNextForm(int orderId, int step, IReadOnlyDictionary<string, string> values)
+        public Form NextForm(int step, IReadOnlyDictionary<string, string> values)
         {
             if (step == 1)
             {
                 if (values["gorod"] == "1")
                 {
-                    return new Form(UniqueCode, orderId, 2, false, new Field[]
-                    {
-                        new HiddenField("Город", "gorod", "1"),
-                        new SelectionField("Постамат", "postamate", "1", postamates["1"]),
-                    });
+                    return Form.CreateNext(Name, 2, values)
+                              .AddField(new SelectionField("Постамат", "postamate", "1", postamates["1"]));
                 }
 
                 else if (values["gorod"] == "2")
                 {
-                    return new Form(UniqueCode, orderId, 2, false, new Field[]
-                    {
-                        new HiddenField("Город", "gorod", "2"),
-                        new SelectionField("Постамат", "postamate", "4", postamates["2"]),
-                    });
+                    return Form.CreateNext(Name, 2, values)
+                               .AddField(new SelectionField("Постамат", "postamate", "4", postamates["2"]));
                 }
                 else
                     throw new InvalidOperationException("Не верная операция выбора доставки");
@@ -102,11 +92,7 @@ namespace Store.Web.Controllers
 
             else if (step == 2)
             {
-                return new Form(UniqueCode, orderId, 3, true, new Field[]
-                {
-                    new HiddenField("Город", "gorod", values["gorod"]),
-                    new HiddenField("Постамат", "postamate", values["postamate"]),
-                });
+                return Form.CreateLast(Name, 3, values);
             }
             else
                 throw new InvalidOperationException("Не верный шаг заполнения");
