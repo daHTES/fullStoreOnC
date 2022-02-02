@@ -9,7 +9,7 @@ namespace Store
 
         public string Description { get; }
 
-        public decimal Amount { get; }
+        public decimal Price { get; }
 
         public IReadOnlyDictionary<string, string> Parameters { get; }
 
@@ -31,7 +31,7 @@ namespace Store
             UniqueCode = uniquecode;
             Description = description;
             Parameters = parameters;
-            Amount = amount;
+            Price = amount;
         }
     }
 }

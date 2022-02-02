@@ -33,7 +33,7 @@ namespace Store.Web.Application
         {
             return new BookModel
             {
-                Id = book.ID,
+                Id = book.Id,
                 Isbn = book.Isbn,
                 Title = book.Title,
                 Author = book.Author,

@@ -9,23 +9,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Store", "domain\Store\Store
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "infastructure", "infastructure", "{95275A35-385F-4311-9773-37DAC93D93F7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Store.Memory", "infastructure\Store.Memory\Store.Memory.csproj", "{1F2D11DD-D71D-4F3D-8670-E2C83907A6B8}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "presentation", "presentation", "{9B67B88C-35E5-4FA3-96C6-23751FBF8020}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Store.Web", "presentation\Store.Web\Store.Web.csproj", "{0A2A19D3-65C1-44CF-9AE1-ADBF1E660606}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Store.Tests", "domain\Store.Tests\Store.Tests.csproj", "{597395FF-888D-4313-9BB7-210237A0ACC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Store.Web.Contractors", "presentation\Store.Web.Contractors\Store.Web.Contractors.csproj", "{7F07470E-9C8E-418D-B2DE-BDD5EDCAF06A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Store.Web.Contractors", "presentation\Store.Web.Contractors\Store.Web.Contractors.csproj", "{7F07470E-9C8E-418D-B2DE-BDD5EDCAF06A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "plugins", "plugins", "{95FFE55B-367B-4430-B811-53B4CC70D3C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Store.YandexKassa", "plugins\Store.YandexKassa\Store.YandexKassa.csproj", "{E4209998-7C5A-4C4F-A4E3-E7986A89A4DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Store.YandexKassa", "plugins\Store.YandexKassa\Store.YandexKassa.csproj", "{E4209998-7C5A-4C4F-A4E3-E7986A89A4DC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "application", "application", "{7BE3F360-C9CE-4ED9-9211-2791FDE48092}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Store.Web.Application", "application\Store.Web.Application\Store.Web.Application.csproj", "{62A45921-CE39-4E3E-AE5A-3586CF6D4A45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Store.Web.Application", "application\Store.Web.Application\Store.Web.Application.csproj", "{62A45921-CE39-4E3E-AE5A-3586CF6D4A45}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,18 +47,6 @@ Global
 		{8DC0730F-BDC0-4198-AEC3-39983FDECEEF}.Release|x64.Build.0 = Release|Any CPU
 		{8DC0730F-BDC0-4198-AEC3-39983FDECEEF}.Release|x86.ActiveCfg = Release|Any CPU
 		{8DC0730F-BDC0-4198-AEC3-39983FDECEEF}.Release|x86.Build.0 = Release|Any CPU
-		{1F2D11DD-D71D-4F3D-8670-E2C83907A6B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1F2D11DD-D71D-4F3D-8670-E2C83907A6B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1F2D11DD-D71D-4F3D-8670-E2C83907A6B8}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{1F2D11DD-D71D-4F3D-8670-E2C83907A6B8}.Debug|x64.Build.0 = Debug|Any CPU
-		{1F2D11DD-D71D-4F3D-8670-E2C83907A6B8}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{1F2D11DD-D71D-4F3D-8670-E2C83907A6B8}.Debug|x86.Build.0 = Debug|Any CPU
-		{1F2D11DD-D71D-4F3D-8670-E2C83907A6B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1F2D11DD-D71D-4F3D-8670-E2C83907A6B8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1F2D11DD-D71D-4F3D-8670-E2C83907A6B8}.Release|x64.ActiveCfg = Release|Any CPU
-		{1F2D11DD-D71D-4F3D-8670-E2C83907A6B8}.Release|x64.Build.0 = Release|Any CPU
-		{1F2D11DD-D71D-4F3D-8670-E2C83907A6B8}.Release|x86.ActiveCfg = Release|Any CPU
-		{1F2D11DD-D71D-4F3D-8670-E2C83907A6B8}.Release|x86.Build.0 = Release|Any CPU
 		{0A2A19D3-65C1-44CF-9AE1-ADBF1E660606}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0A2A19D3-65C1-44CF-9AE1-ADBF1E660606}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A2A19D3-65C1-44CF-9AE1-ADBF1E660606}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -127,7 +113,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{8DC0730F-BDC0-4198-AEC3-39983FDECEEF} = {66D15AD5-39FB-475A-90B5-A466447238F1}
-		{1F2D11DD-D71D-4F3D-8670-E2C83907A6B8} = {95275A35-385F-4311-9773-37DAC93D93F7}
 		{0A2A19D3-65C1-44CF-9AE1-ADBF1E660606} = {9B67B88C-35E5-4FA3-96C6-23751FBF8020}
 		{597395FF-888D-4313-9BB7-210237A0ACC7} = {66D15AD5-39FB-475A-90B5-A466447238F1}
 		{7F07470E-9C8E-418D-B2DE-BDD5EDCAF06A} = {9B67B88C-35E5-4FA3-96C6-23751FBF8020}

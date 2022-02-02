@@ -6,6 +6,8 @@
 }
 
 <h1>Параметры доставки</h1>
+
+
 <form action="@Url.Action(nameof(OrderController.NextDelivery))" method="post">
     <input type="hidden" name="serviceName" value="@Model.ServiceName" />
     <input type="hidden" name="step" value="@Model.Step" />

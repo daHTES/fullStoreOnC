@@ -46,9 +46,9 @@ namespace Store.Web.Controllers
                 throw new InvalidOperationException("Не верно передана форма!");
 
 
-            var cityId = form.Fields.Single(field => field.Name == "gorod").Value;
+            var cityId = form.Parameters["city"];
             var cityName = cities[cityId];
-            var postamateId = form.Fields.Single(field => field.Name == "postamate").Value;
+            var postamateId = form.Parameters["postamate"];
             var postamateName = postamates[cityId][postamateId];
 
             var parameters = new Dictionary<string, string>
@@ -75,13 +75,13 @@ namespace Store.Web.Controllers
         {
             if (step == 1)
             {
-                if (values["gorod"] == "1")
+                if (values["city"] == "1")
                 {
                     return Form.CreateNext(Name, 2, values)
                               .AddField(new SelectionField("Постамат", "postamate", "1", postamates["1"]));
                 }
 
-                else if (values["gorod"] == "2")
+                else if (values["city"] == "2")
                 {
                     return Form.CreateNext(Name, 2, values)
                                .AddField(new SelectionField("Постамат", "postamate", "4", postamates["2"]));

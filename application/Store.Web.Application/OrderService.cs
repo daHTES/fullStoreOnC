@@ -58,11 +58,11 @@ namespace Store.Web.Application
         internal OrderModel Map(Order order)
         {
             var books = GetBooks(order);
-            var items = from item in order.CollectionItems
-                        join book in books on item.BookId equals book.ID
+            var items = from item in order.Items
+                        join book in books on item.BookId equals book.Id
                         select new OrderItemModel
                         {
-                            BookId = book.ID,
+                            BookId = book.Id,
                             Title = book.Title,
                             Author = book.Author,
                             Price = item.Price,
@@ -83,7 +83,7 @@ namespace Store.Web.Application
 
         internal IEnumerable<Book> GetBooks(Order order)
         {
-            var bookIds = order.CollectionItems.Select(item => item.BookId);
+            var bookIds = order.Items.Select(item => item.BookId);
 
             return bookRepository.GetAllByIds(bookIds);
         }
@@ -105,10 +105,10 @@ namespace Store.Web.Application
         internal void AddOrUpdateBook(Order order, int bookId, int count)
         {
             var book = bookRepository.GetById(bookId);
-            if (order.CollectionItems.TryGet(bookId, out OrderItem orderItem))
+            if (order.Items.TryGet(bookId, out OrderItem orderItem))
                 orderItem.Count += count;
             else
-                order.CollectionItems.Add(book.ID, book.Price, count);
+                order.Items.Add(book.Id, book.Price, count);
         }
 
         internal void UpdateSession(Order order)
@@ -120,7 +120,7 @@ namespace Store.Web.Application
         public OrderModel UpdateBook(int bookId, int count)
         {
             var order = GetOrder();
-            order.CollectionItems.Get(bookId).Count = count;
+            order.Items.Get(bookId).Count = count;
 
             orderRepository.Update(order);
             UpdateSession(order);
@@ -131,7 +131,7 @@ namespace Store.Web.Application
         public OrderModel RemoveBook(int bookId)
         {
             var order = GetOrder();
-            order.CollectionItems.Remove(bookId);
+            order.Items.Remove(bookId);
 
             orderRepository.Update(order);
             UpdateSession(order);
