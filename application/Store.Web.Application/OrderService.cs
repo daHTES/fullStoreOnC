@@ -226,6 +226,8 @@ namespace Store.Web.Application
             orderRepository.Update(order);
             Session.RemoveCart();
 
+            notificationService.StartProcess(order);
+
             return Map(order);
         }
     }
