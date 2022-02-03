@@ -17,13 +17,13 @@ namespace Store.Tests
             throw new NotImplementedException();
         }
 
-        public Book[] GetAllIsbn(string isbn)
+        public Book[] GetAllByIsbn(string isbn)
         {
             return ResultOfGetAllByIsbn;
         }
 
 
-        public Book[] GetAllTitleOrAuthor(string titleOrAuthor)
+        public Book[] GetAllByTitleOrAuthor(string titleOrAuthor)
         {
             return ResultOfGetAllTitleOfAuthor;
         }

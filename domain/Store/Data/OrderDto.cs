@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Store.Data
 {
@@ -12,17 +9,23 @@ namespace Store.Data
 
         public string CellPhone { get; set; }
 
+
         public string DeliveryUniqueCode { get; set; }
+
 
         public string DeliveryDescription { get; set; }
 
         public decimal DeliveryPrice { get; set; }
 
+
         public Dictionary<string, string> DeliveryParameters { get; set; }
 
+        [Column(TypeName = "nvarchar(1000)")]
         public string PaymentServiceName { get; set; }
 
+
         public string PaymentDescription { get; set; }
+
 
         public Dictionary<string, string> PaymentParameters { get; set; }
 

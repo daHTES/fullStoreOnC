@@ -16,8 +16,8 @@ namespace Store.Web.Application
         public IReadOnlyCollection<BookModel> GetAllByQuery(string query) 
         {
 
-            var books = Book.IsIsbn(query) ? bookRepositary.GetAllIsbn(query):
-                bookRepositary.GetAllTitleOrAuthor(query);
+            var books = Book.IsIsbn(query) ? bookRepositary.GetAllByIsbn(query):
+                bookRepositary.GetAllByTitleOrAuthor(query);
 
             return books.Select(Map).ToArray();
         }

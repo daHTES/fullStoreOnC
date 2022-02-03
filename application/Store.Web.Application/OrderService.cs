@@ -109,6 +109,8 @@ namespace Store.Web.Application
                 orderItem.Count += count;
             else
                 order.Items.Add(book.Id, book.Price, count);
+
+            orderRepository.Update(order);
         }
 
         internal void UpdateSession(Order order)
@@ -154,7 +156,7 @@ namespace Store.Web.Application
 
             if (TryFormatPhone(cellPhone, out string formattedPhone))
             {
-                var confirmationCode = 1111; // todo: random.Next(1000, 10000) = 1000, 1001, ..., 9998, 9999
+                var confirmationCode = 1111;
                 model.CellPhone = formattedPhone;
                 Session.SetInt32(formattedPhone, confirmationCode);
                 notificationService.SendConfirmationCode(formattedPhone, confirmationCode);
